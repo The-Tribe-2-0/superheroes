@@ -1,32 +1,12 @@
-# db/seeds.rb
-Hero.destroy_all
-Power.destroy_all
-HeroPower.destroy_all
+# Create heroes
+hero1 = Hero.create(name: 'Kamala Khan', super_name: 'Ms. Marvel')
+hero2 = Hero.create(name: 'Doreen Green', super_name: 'Squirrel Girl')
+hero3 = Hero.create(name: 'Gwen Stacy', super_name: 'Spider-Gwen')
 
-heroes = [
-  { name: 'Kamala Khan', super_name: 'Ms. Marvel' },
-  { name: 'Doreen Green', super_name: 'Squirrel Girl' },
-  { name: 'Gwen Stacy', super_name: 'Spider-Gwen' }
-]
+# Create powers
+power1 = Power.create(description: 'Gives the wielder super-human strengths')
+power2 = Power.create(description: 'Gives the wielder the ability to fly through the skies at supersonic speed')
 
-powers = [
-  { name: 'Super Strength', description: 'Gives the wielder super-human strength' },
-  { name: 'Flight', description: 'Gives the wielder the ability to fly through the skies at supersonic speed' }
-]
-
-heroes.each do |hero_attrs|
-  Hero.create(hero_attrs)
-end
-
-powers.each do |power_attrs|
-  Power.create(power_attrs)
-end
-
-heroes = Hero.all
-powers = Power.all
-
-heroes.each do |hero|
-  powers.each do |power|
-    HeroPower.create(strength: ['Strong', 'Average', 'Weak'].sample, hero: hero, power: power)
-  end
-end
+# Assign powers to heroes
+HeroPower.create(hero: hero1, power: power1, strength: 'Strong')
+HeroPower.create(hero: hero1, power: power2, strength: 'Average')

@@ -1,17 +1,17 @@
 class HeroPowersController < ApplicationController
     def create
-      hero_power = HeroPower.new(hero_power_params)
-      if hero_power.save
-        render json: hero_power.hero, include: :powers
+      hero = Hero.find_by(id: params[:hero_id])
+      power = Power.find_by(id: params[:power_id])
+
+      if hero && power
+        hero_power = hero.hero_powers.create(power: power, strength: params[:strength])
+        if hero_power.persisted?
+          render json: hero.as_json(include: :powers)
+        else
+          render json: { errors: hero_power.errors.full_messages }, status: :unprocessable_entity
+        end
       else
-        render json: { errors: hero_power.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: ['Hero or Power not found'] }, status: :not_found
       end
     end
-  
-    private
-  
-    def hero_power_params
-      params.require(:hero_power).permit(:strength, :power_id, :hero_id)
-    end
   end
-  
